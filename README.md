@@ -22,7 +22,7 @@ You must also have git installed.
 ## Running the project
 
 ```bash
-git clone https://github.com/BendikSolevag/binomial-option-pricing
+git clone https://github.com/BendikSolevag/binomial-option-valuation
 
 cd binomial-option-pricing
 
