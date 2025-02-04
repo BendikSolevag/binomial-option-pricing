@@ -1,6 +1,6 @@
-import numpy as np
+import math
 
-class BinomialTreeEuropean:
+class BinomialTree:
 
   def __init__(self, steps, r, delta, T, sigma, S, K, call=True, european=True):
     self.S = S
@@ -11,9 +11,9 @@ class BinomialTreeEuropean:
     self.h = float(T)/steps
     self.call = call
     self.european = european
-    self.u = np.exp((r-delta)*self.h + sigma * np.sqrt(self.h))
-    self.d = np.exp((r-delta)*self.h - sigma * np.sqrt(self.h))
-    self.p = (np.exp((r-delta)*self.h) - self.d) / (self.u - self.d)
+    self.u = math.e**((r-delta)*self.h + sigma * math.sqrt(self.h))
+    self.d = math.e**((r-delta)*self.h - sigma * math.sqrt(self.h))
+    self.p = (math.e**((r-delta)*self.h) - self.d) / (self.u - self.d)
 
     self.spot_tree = [[0 for _ in range(i + 1)] for i in range(steps + 1)]
     self.payoff_tree = [[0 for _ in range(i + 1)] for i in range(steps + 1)]
@@ -45,7 +45,7 @@ class BinomialTreeEuropean:
     for j in range(len(self.value_tree[-1])):
       self.value_tree[-1][j] = self.payoff_tree[-1][j]
 
-    discount = np.exp(-self.r*self.h)
+    discount = math.e**(-self.r*self.h)
     for i_ in range(len(self.value_tree)-1):
       i = len(self.spot_tree) - 2 - i_
       for j in range(len(self.value_tree[i])):
@@ -69,7 +69,7 @@ def main():
   call = True
   european = False
 
-  tree = BinomialTreeEuropean(steps, r, delta, T, sigma, S, K, call, european)
+  tree = BinomialTree(steps, r, delta, T, sigma, S, K, call, european)
   
   print(tree.value)
 
