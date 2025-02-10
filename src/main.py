@@ -26,7 +26,7 @@ class BinomialTree:
 
   def propagate(self):
     self.spot_tree[0][0] = self.S
-    self.payoff_tree[0][0] = self.S - self.K
+    self.payoff_tree[0][0] = self.S - self.K if self.call else self.K - self.S
     for i in range(len(self.spot_tree) - 1):
       for j in range(len(self.spot_tree[i])):
         self.spot_tree[i+1][j] = self.spot_tree[i][j] * self.u
@@ -52,25 +52,23 @@ class BinomialTree:
         weighted_up = self.p * self.value_tree[i+1][j]
         weighted_down = (1-self.p) * self.value_tree[i+1][j+1]
         self.value_tree[i][j] = discount * (weighted_up + weighted_down)
-
         if not self.european:
           self.value_tree[i][j] = max(self.value_tree[i][j], self.payoff_tree[i][j])
     return self.value_tree[0][0]
   
 
 def main():
-  steps = 200
-  r = 0.03
+  steps = 1
+  r = 0.08
   delta = 0
-  T = 1/3
+  T = 1
   sigma = 0.3
-  S = 78
-  K = 80
-  call = True
+  S = 100
+  K = 130
+  call = False
   european = False
 
   tree = BinomialTree(steps, r, delta, T, sigma, S, K, call, european)
-  
   print(tree.value)
 
   
